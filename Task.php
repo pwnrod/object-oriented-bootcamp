@@ -3,11 +3,13 @@
 class Task
 {
     public $description;
+    public $title;
 
     public $completed = false;
 
-    public function __construct($description)
+    public function __construct($title, $description)
     {
+        $this->title = $title;
         $this->description = $description;
     }
 
@@ -17,8 +19,8 @@ class Task
     }
 }
 
-$task = new Task('Learn OOP');
+$task = new Task('Learn OOP', 'Go through Laracasts videos and become proficient at coding!');
 
 $task->complete();
 
-var_dump($task->completed);
+var_dump($task->title);
