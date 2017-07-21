@@ -1,12 +1,40 @@
 <?php
 
-use Acme\users\Person;
-use Acme\Business;
-use Acme\Staff;
+interface Logger {
+    public function execute($message);
+}
 
-$caylin = new Person('Cayiln James');
-$staff = new Staff([$caylin]);
-$lougeek = new Business($staff);
-$lougeek->hire(new Person('Jane Doe'));
+class LogToFile implements Logger {
+    public function execute($message)
+    {
+        var_dump('log the message to a file: ' . $message);
+    }
+}
 
-var_dump($lougeek->getStaffMembers());
+class LogToDatabase implements Logger {
+    public function execute($message)
+    {
+        var_dump('log the message to a database: ' . $message);
+    }
+}
+
+// ...
+
+class UsersController {
+    protected $logger;
+
+    public function __construct(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function show()
+    {
+        $user = 'John Doe';
+        $this->logger->execute($user);
+    }
+}
+
+$controller = new UsersController(new LogToDatabase);
+
+$controller->show();
